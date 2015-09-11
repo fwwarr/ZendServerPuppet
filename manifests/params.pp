@@ -6,10 +6,10 @@ class zendserver::params {
   $admin_password = 'changeme'
   $manage_repos = true
   $webserver = 'apache'
-  $phpversion = '5.5'
+  $phpversion = '5.6'
   $license_name = undef
   $license_key = undef
-  $zend_server_version = '8.0'
+  $zend_server_version = '8.5'
   $join_cluster = false
   $admin_api_key_name = undef
   $admin_api_key_secret = undef
