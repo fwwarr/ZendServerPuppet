@@ -15,13 +15,16 @@ class zendserver::bootstrap::zsmanage inherits zendserver::bootstrap {
       #If license_details are empty then Zend Server will operate in trial mode
       $license = ''
     }
+    if defined('$zendserver::production') {
+      $profile = "-r ${zendserver::production}"
+    }
     #TODO: switch to using the zendserver::sdk once it's more reliable
     #Bootstrap Zend Server using zsmanage
     zendserver::zsmanage { 'bootstrap-single-server':
       command            => 'bootstrap-single-server',
       zskey              => $zendserver::admin_api_key_name,
       zssecret           => $zendserver::admin_api_key_secret,
-      additional_options => "${options} ${license}",
+      additional_options => "${options} ${license} ${profile}",
       notify             => Service['zend-server'],
     }
   }
