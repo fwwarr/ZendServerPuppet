@@ -15,8 +15,6 @@
 # It is advised you add a puppet "File" resource for the logo file and "require" it. 
 # [*user_app_name*]
 # The user application's name (alias) (Default: resource name)
-# [*create_vhost*]
-# Whether to create a web server vhost to access the app.
 # [*user_params*]
 # Optional parameters to pass to the deployment command.
 
@@ -46,7 +44,7 @@ define zendserver::application::define (
   if $app_name_fact != undef {
 
   } else {
-    zendserver::sdk::command { "app_remove_${name}":
+    zendserver::sdk::command { "app_define_${name}":
       target             => $target,
       api_command        => 'applicationDefine',
       additional_options => $additional_options,

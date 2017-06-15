@@ -32,16 +32,27 @@ define zendserver::sdk::command (
   $tries              = 3,
   $try_sleep          = 5,
   $cwd                = undef,
+  $zs_version         = $zendserver::zend_server_version,
+  $onlyif             = [],
 ) {
+
+if versioncmp($zs_version, '8.5') >= 0 {
+    $zs_client = '/usr/local/zend/bin/zs-client.sh'
+  }
+  else {
+    $zs_client = '/usr/local/zend/bin/zs-client.phar'
+  }
+
 
   if $cwd == undef {
     exec { "zsapi_${name}":
       path      => "/usr/local/zend/bin:${::path}",
       tries     => $tries,
       try_sleep => $try_sleep,
-      command   => "zs-client.phar ${api_command} --target=${target} ${additional_options} ",
+      command   => "${zs_client} ${api_command} --target=${target} ${additional_options} ",
       logoutput => true,
       require => File['/usr/local/zend/bin/zs-client.phar'],
+      onlyif => $onlyif,
     }
   } else {
     exec { "zsapi_${name}":
@@ -49,7 +60,7 @@ define zendserver::sdk::command (
       tries     => $tries,
       cwd       => $cwd,
       try_sleep => $try_sleep,
-      command   => "zs-client.phar ${api_command} --target=${target} ${additional_options} ",
+      command   => "${zs_client} ${api_command} --target=${target} ${additional_options} ",
       logoutput => true,
       require => File['/usr/local/zend/bin/zs-client.phar'],
     }
